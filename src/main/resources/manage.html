@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>CubiRepo Management</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
+        <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <script>
+            function parseForm() {
+                var form = document.getElementById("form");
+                form.submit();
+            }
+
+            function handleDelete(object) {
+                var form = document.getElementById("delete");
+                form.setAttribute("action", object.href);
+                form.submit();
+            }
+
+            function doPrompt(parent, name, author, version) {
+                var targetJson = document.getElementById("jsonCode");
+                var myLocation = document.URL.split("/manage/")[0] + "/";
+
+                targetJson.innerHTML = "{" +
+                "\n    \"name\": \"" + name + "\"," +
+                "\n    \"author\": \"" + author + "\"," +
+                "\n    \"version\": \"" + version + "\"," +
+                "\n    \"source\": \"" + myLocation + "\"" +
+                "\n}";
+                $('#sourceModal').modal('show');
+            }
+        </script>
+
+        <div class="modal fade" id="sourceModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">JSON code</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Add this to your config.json.</p>
+                        <pre><code id="jsonCode"></code></pre>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h3>Resources:</h3>
+
+        <div class="row">
+            <div class="col-md-8">
+                <table class="table table-hover">
+                    <tr>
+                        <td><b>Name</b></td>
+                        <td><b>Author</b></td>
+                        <td><b>Version</b></td>
+                        <td><b>Actions</b></td>
+                    </tr>
+                    %deleteElements%
+                </table>
+            </div>
+
+            <div class="col-md-4">
+                <h4>Upload:</h4>
+                <form id="form" action="/upload/" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="name">Name: </label>
+                        <input class="form-control" name="name" id="name" value="server">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="author">Author: </label>
+                        <input class="form-control" name="author" id="author" value="cubition">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="version">Version: </label>
+                        <input class="form-control" name="version" id="version" value="0.1">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="mainclass">mainClass: </label>
+                        <input class="form-control"  name="mainclass" id="mainclass" value="net.cubition.server.ServerBaseController">
+                    </div>
+
+                    <div class="form-group">
+                        <input type="file" name="file" id="file">
+                    </div>
+
+                    <button class="btn btn-primary" onclick="parseForm()">Upload Resource</button>
+                </form>
+            </div>
+        </div>
+        <br />
+    </body>
+</html>
