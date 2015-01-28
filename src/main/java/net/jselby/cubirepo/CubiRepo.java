@@ -44,6 +44,20 @@ public class CubiRepo {
 
     public void start() {
         load();
+
+        // Make sure we have a Jenkins resource
+        boolean hasJenkins = false;
+        for (Resource resource : resources) {
+            if (resource instanceof JenkinsResource) {
+                hasJenkins = true;
+                break;
+            }
+        }
+
+        if (!hasJenkins) {
+            resources.add(new JenkinsResource());
+        }
+
         port(port);
 
         // Class file mapping
@@ -124,14 +138,19 @@ public class CubiRepo {
 
             String elements = "";
             for (Resource resource : resources) {
+                String deleteSrc = "<a href=\"/delete/?author=" + resource.getAuthor()
+                        + "&name=" + resource.getName() + "&version=" + resource.getVersion()
+                        + "\"><button class=\"btn btn-default\">Delete</button></a>";
+                if (!resource.canDelete()) {
+                    deleteSrc = "<a href=\"#\"><button class=\"btn btn-default\" disabled=\"disabled\">Delete</button></a>";
+                }
+
                 elements += "<tr>" +
                         "<td>" + resource.getName() + "</td>" +
                         "<td>" + resource.getAuthor() + "</td>" +
                         "<td>" + resource.getVersion() + "</td>" +
                         "<td>" +
-                        "<a href=\"/delete/?author=" + resource.getAuthor()
-                            + "&name=" + resource.getName() + "&version=" + resource.getVersion()
-                            + "\"><button class=\"btn btn-default\">Delete</button></a>&nbsp;" +
+                        deleteSrc + "&nbsp;" +
                         "<a href=\"#\" onclick=\"doPrompt(this," +
                             " '" + resource.getName() + "'," +
                             " '" + resource.getAuthor() + "'," +

@@ -5,30 +5,32 @@ import org.apache.commons.io.IOUtils;
 import java.io.*;
 
 public class Resource implements Serializable {
+    private transient final long serialVersionUID = 104242301238l;
+
     /**
      * The name of the resource defines the actual resource name, and is used in downloading resources.
      */
-    private String name;
+    protected String name;
 
     /**
      * The author is the one who created the resource, and therefore defines what namespace this resource is under.
      */
-    private String author;
+    protected String author;
 
     /**
      * The version of the resource.
      */
-    private String version;
+    protected String version;
 
     /**
      * The main class defines what endpoint the Bootstrap should look at.
      */
-    private String mainClass;
+    protected String mainClass;
 
     /**
      * Returns the type of object this is.
      */
-    private String type;
+    protected String type;
 
     /**
      * Returns the name of this resource. This is also the name used in polling for resources.
