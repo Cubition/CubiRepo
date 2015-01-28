@@ -36,6 +36,9 @@ public class CubiRepo {
     @Parameter(names = "--password", description = "Sets the password")
     private String password = "12345";
 
+    @Parameter(names = "--title", description = "Sets the info page title")
+    private String title = "CubiRepo Central";
+
     private List<Resource> resources = null;
     private Gson gson = new Gson();
 
@@ -293,7 +296,23 @@ public class CubiRepo {
             return contents;
         });
 
-        get("*", (req, res) -> "File not found.");
+        // Resource listing
+        get("/", (req, res) -> {
+            if (req.queryParams("noRedirect") == null) {
+                res.header("refresh", "0; /info/"); // To redirect compatible clients, in a friendly way
+            }
+            return gson.toJson(resources.toArray(new Resource[resources.size()]));
+        });
+
+        // Information
+        get("/info/", "text/html", (req, res) -> {
+           try (InputStream in = getClass().getResourceAsStream("/info.html")) {
+               return IOUtils.toString(in).replace("%name%", title);
+           }
+        });
+
+        // Debug output
+        after((req, res) -> System.out.println(req.raw().getRemoteAddr() + " requested: " + req.pathInfo()));
     }
 
     private void save() {

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>%name%</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
+    </head>
+    <body>
+        <script>
+            window.onload = function buildTarget() {
+                var targetJson = document.getElementById("howToUse");
+                var myLocation = document.URL.split("/info/")[0] + "/";
+
+                targetJson.innerHTML = "{" +
+                "\n    \"name\": \"&lt;name&gt;\"," +
+                "\n    \"author\": \"&lt;author&gt;\"," +
+                "\n    \"version\": \"&lt;version&gt;\"," +
+                "\n    \"source\": \"" + myLocation + "\"" +
+                "\n}";
+            }
+        </script>
+
+        <h3>%name%</h3>
+        <p>The unoffical CubiRepo hosts many different community projects for Cubition, including official builds.</p>
+        <p>How to use:</p>
+        <pre><code id="howToUse"></code></pre>
+
+        <table>
+            <tr>
+                <td>JSON: </td>
+                <td><a href="/?noRedirect=true">/</a></td>
+            </tr>
+            <tr>
+                <td>Github source: </td>
+                <td><a href="https://github.com/j-selby/CubiRepo">https://github.com/j-selby/CubiRepo</a></td>
+            </tr>
+        </table>
+    </body>
+</html>

@@ -127,6 +127,10 @@ public class Resource implements Serializable {
         }
     }
 
+    public boolean canDelete() {
+        return true;
+    }
+
     @Override
     public String toString() {
         return "Resource{" +
