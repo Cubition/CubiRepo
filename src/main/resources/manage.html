@@ -4,6 +4,7 @@
         <title>CubiRepo Management</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
         <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/res/prism.css" rel="stylesheet" />
         <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
         <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
     </head>
@@ -30,6 +31,9 @@
                 "\n    \"version\": \"" + version + "\"," +
                 "\n    \"source\": \"" + myLocation + "\"" +
                 "\n}";
+
+                Prism.highlightAll();
+
                 $('#sourceModal').modal('show');
             }
         </script>
@@ -43,7 +47,7 @@
                     </div>
                     <div class="modal-body">
                         <p>Add this to your config.json.</p>
-                        <pre><code id="jsonCode"></code></pre>
+                        <pre class="line-numbers"><code id="jsonCode" class="language-javascript"></code></pre>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -98,6 +102,7 @@
                 </form>
             </div>
         </div>
-        <br />
+
+        <script src="/res/prism.js"></script>
     </body>
 </html>

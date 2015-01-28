@@ -10,7 +10,9 @@ import spark.Route;
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.http.Part;
 import java.io.*;
+import java.net.URLConnection;
 import java.net.URLDecoder;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -260,6 +262,35 @@ public class CubiRepo {
                 halt(404, "Failed to upload a file with your request. (as part \"file\")");
                 return null;
             }
+        });
+
+        get("/res/*", (req, res) -> {
+            String url = req.pathInfo();
+
+            if (url.contains("*") || url.contains("//") || url.contains("..") || url.contains("~")) {
+                halt(404);
+            }
+
+            String contents = null;
+            try (InputStream in = getClass().getResourceAsStream(url)) {
+                contents = IOUtils.toString(in);
+            }
+
+            String type;
+
+            if (url.endsWith(".js")) {
+                type = "text/javascript";
+            } else if (url.endsWith(".html")) {
+                type = "text/html";
+            } else if (url.endsWith(".css")) {
+                type = "text/css";
+            } else {
+                type = "application/octet-stream";
+            }
+
+            res.type(type);
+
+            return contents;
         });
 
         get("*", (req, res) -> "File not found.");
